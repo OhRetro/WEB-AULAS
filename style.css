@@ -1,0 +1,120 @@
+@font-face {
+    font-family: "MinecraftFont";
+    src: url("fonts/Minecraft.woff2") format('woff2'),
+         url("fonts/Minecraft.woff") format('woff');
+}
+
+body {
+    background-color: rgb(10, 10, 10);
+    color: rgb(255, 255, 255);
+    font-family: "MinecraftFont", monospace;
+    font-size: large;
+    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}
+
+a, a:hover, a:focus, a:active {
+    color: inherit;
+}
+
+button, .fake_button {
+    color: white;
+    font-size: large;
+    font-family: "MinecraftFont", monospace;
+    border-color: rgb(19, 19, 19);
+    background-color: rgb(26, 26, 26);
+    border-radius: 5px;
+}
+
+table,
+th,
+td,
+.bor1 {
+    border: 1px solid white;
+}
+
+.centertext,
+.center {
+    text-align: center;
+}
+
+.centercontents,
+.center {
+    margin: auto;
+    width: 50%;
+}
+
+.fontcolor1 {
+    color: rgb(0, 0, 0);
+}
+
+.bgcolor1 {
+    background-color: rgb(39, 39, 39);
+}
+
+.bgcolor2 {
+    background-color: rgb(26, 26, 26);
+}
+
+.bgcolor3 {
+    background-color: rgb(19, 19, 19);
+}
+
+.borcolor1 {
+    border-color: white;
+}
+
+.width1 {
+    width: 50%;
+}
+
+.height1 {
+    height: 500px;
+}
+
+.imagem_display {
+    width: 500px;
+    height: 300px;
+}
+
+.rounded_corners {
+    border-radius: 5px;
+}
+
+button.invisible {
+    background-color: transparent;
+    border-color: transparent;
+    cursor: default;
+}
+
+.margin_left {
+    margin-left: 15px;
+}
+
+.margin_right {
+    margin-right: 15px;
+}
+
+.padding1 {
+    padding: 10px;
+}
+
+.square_form {
+    height: 50px;
+    width: 50px;
+}
+
+.float_left {
+    float: left;
+}
+
+.zoom {
+    transition: transform .2s;
+}
+  
+.zNormal:hover {
+    transform: scale(1.05);
+}
+
+.zWeak:hover {
+    transform: scale(1.02);
+}
