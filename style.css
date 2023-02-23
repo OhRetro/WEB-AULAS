@@ -6,6 +6,9 @@
 
 body {
     background-color: rgb(10, 10, 10);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
     color: rgb(255, 255, 255);
     font-family: "MinecraftFont", monospace;
     font-size: large;
@@ -71,7 +74,7 @@ td,
     height: 500px;
 }
 
-.imagem_display {
+.image_display {
     width: 500px;
     height: 300px;
 }

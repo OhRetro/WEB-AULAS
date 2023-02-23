@@ -1,17 +1,21 @@
-function pageTitle(title="") {
-    const body_title = document.getElementById("page_body_title");
+function pageTitle(title="", prevType=0) {
+    const prevTypes = [["../../index.html", "Home"], ["../index.html", "Voltar"]]
+
+    const bodyTitle = document.getElementById("page_body_title");
     if (title != "") {
-        title = "/ "+title;
-        const a_link = document.createElement("a");
-        a_link.href = "../../index.html";
-        a_link.text = "Home";
-        body_title.appendChild(a_link);
+        title = " / "+title;
+        const a = document.createElement("a");
+        a.href = prevTypes[prevType][0];
+        a.text = prevTypes[prevType][1];
+        bodyTitle.appendChild(a);
 
     }
     document.title = "WEB-AULAS "+title;
     if (title != "") { 
-        //body_title.textContent += title;
+        const a = document.createElement("a");
+        a.text = title;
+        bodyTitle.appendChild(a);
         return;
     }
-    body_title.textContent = "WEB-AULAS";
+    bodyTitle.textContent = "WEB-AULAS";
 }
