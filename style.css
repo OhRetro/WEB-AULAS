@@ -23,9 +23,13 @@ button, .fake_button {
     color: white;
     font-size: large;
     font-family: "MinecraftFont", monospace;
-    border-color: rgb(19, 19, 19);
-    background-color: rgb(26, 26, 26);
+    border-color: rgb(80, 80, 80);
+    background-color: rgb(58, 58, 58);
     border-radius: 5px;
+}
+
+button:hover, .fake_button:hover {
+    cursor: pointer;
 }
 
 table,

@@ -12,6 +12,7 @@ function generateButtons(elementId, name, onClick) {
   const button = document.createElement("button");
   button.innerHTML = name
   button.addEventListener("click", onClick, false);
+  button.className = "zoom zNormal"
   document.getElementById(elementId).appendChild(button);
 }
 
@@ -27,9 +28,24 @@ async function requestURL(url, keys=[]) {
   return await result
 }
 
+async function requestGistAnimals() {
+  const url = "https://api.github.com/gists/1a029cb0a734249019eadbb58013cc4d"
+  const keys = ["files", "animals.json", "raw_url"]
+  const data = await requestURL(url, keys)
+  return await data
+}
+
 async function requestAnimalJSON() {
-  const url = "https://gist.githubusercontent.com/NOVOTEC-NAKA/1a029cb0a734249019eadbb58013cc4d/raw/f37ae34659eedefd9896b346698aebb85ce2beb8/animals.json"
-  const data = await requestURL(url, ["files"])
+  const url = await requestGistAnimals()
+  const keys = ["files"]
+  const data = await requestURL(url, keys)
+  return await data
+}
+
+async function requestAnimalTranslation(language) {
+  const url = await requestGistAnimals()
+  const keys = ["translations", language]
+  const data = await requestURL(url, keys)
   return await data
 }
 
@@ -42,6 +58,7 @@ async function getRandomAnimalFile(animal, displayName) {
 
 async function generateAnimalButtons() {
   const animals = await requestAnimalJSON()
+  const translations = await requestAnimalTranslation("pt-br")
   const blacklistedAnimal = ["duck"]
 
   Object.keys(animals).forEach(function (key) {
@@ -49,13 +66,13 @@ async function generateAnimalButtons() {
       return
     }
 
-    const formattedKey = key
+    const formattedKey = translations[key]
       .replace(/_/g, " ")
       .split(" ")
       .map(function (word) {
-        return word.charAt(0).toUpperCase() + word.slice(1);
+        return word.charAt(0).toUpperCase() + word.slice(1)
       })
-      .join(" ");
+      .join(" ")
 
     generateButtons("animalButtons", formattedKey, function () {
       getRandomAnimalFile(key, formattedKey)
