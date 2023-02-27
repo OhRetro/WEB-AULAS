@@ -6,16 +6,13 @@
         <link rel="stylesheet" type="text/css" href="style.css">
         <script src="script.js"></script>
     </head>
-    <body onload="pageTitle();">
-        <h1 class="centertext bor1 bgcolor1 rounded_corners" id="page_body_title"> </h1>
+    <body onload="pageTitle(); generatePagesLink([['bolo_limão', 'Bolo de Limão'], ['animais', 'Animais']]);">
+        <h1 class="centertext bor1 bgcolor1 rounded_corners" id="page-body-title"> </h1>
 
         <div class="bor1 bgcolor3 centercontents height1 rounded_corners">
             <div class="margin_left" style="float:left">
                 <p style="font-size: xx-large;">Páginas:</p>
-                <ul style="font-size: x-large;" id="page_lists">
-                    <li class="zoom zNormal"><a href="pages/bolo_limão/index.html">Bolo de Limão</a></li>
-                    <li class="zoom zNormal"><a href="pages/animais/index.html">Animais</a></li>
-                </ul>
+                <ul style="font-size: x-large;" id="pages-link"></ul>
             </div>
         </div>
     </body>
