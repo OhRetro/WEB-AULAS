@@ -34,6 +34,4 @@ function generatePagesLink(links) {
         li.appendChild(a);
         pagesLink.appendChild(li);
     });
-
-  }
-  
+}

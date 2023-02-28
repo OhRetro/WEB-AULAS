@@ -4,6 +4,10 @@
          url("fonts/Minecraft.woff") format('woff');
 }
 
+html {
+    height: 100%;
+}
+
 body {
     background-color: rgb(10, 10, 10);
     background-repeat: no-repeat;
