@@ -6,7 +6,7 @@
         <link rel="stylesheet" type="text/css" href="style.css">
         <script src="script.js"></script>
     </head>
-    <body onload="pageTitle(); generatePagesLink([['bolo_limão', 'Bolo de Limão'], ['animais', 'Animais']]);">
+    <body onload="pageTitle();">
         <h1 class="centertext bor1 bgcolor1 rounded_corners" id="page-body-title"> </h1>
 
         <div class="bor1 bgcolor3 centercontents height1 rounded_corners">
@@ -16,4 +16,10 @@
             </div>
         </div>
     </body>
+    <script>
+        generatePagesLink([
+            ['bolo_limão', 'Bolo de Limão'],
+            ['animais', 'Animais']
+        ]);
+    </script>
 </html>

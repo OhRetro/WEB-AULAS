@@ -4,6 +4,13 @@
          url("fonts/Minecraft.woff") format('woff');
 }
 
+* {
+    color: white;
+    font-family: "MinecraftFont", monospace;
+    font-size: large;
+    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}
+
 html {
     height: 100%;
 }
@@ -13,26 +20,19 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    color: rgb(255, 255, 255);
-    font-family: "MinecraftFont", monospace;
-    font-size: large;
-    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 }
 
 a, a:hover, a:focus, a:active {
     color: inherit;
 }
 
-button, .fake_button {
-    color: white;
-    font-size: large;
-    font-family: "MinecraftFont", monospace;
+select, button, .fake_button {
     border-color: rgb(80, 80, 80);
     background-color: rgb(58, 58, 58);
     border-radius: 5px;
 }
 
-button:hover, .fake_button:hover {
+select:hover, button:hover, .fake_button:hover {
     cursor: pointer;
 }
 

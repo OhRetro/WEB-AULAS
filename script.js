@@ -2,6 +2,7 @@ function pageTitle(title="", prevType=0) {
     const prevTypes = [["../../index.html", "Home"], ["../index.html", "Voltar"]]
 
     const bodyTitle = document.getElementById("page-body-title");
+    bodyTitle.textContent = "";
     if (title != "") {
         title = " / "+title;
         const a = document.createElement("a");

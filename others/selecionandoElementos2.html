@@ -9,15 +9,17 @@
     <div id="primeiro">#primeiro</div>
     <div>Segundo</div>
     <div class="terceiro ultimo"><span wb-attrib>.terceiro .ultimo</span></div>
-    <script>              
+    <script>             
+        // uma variavel que funciona como uma função onde o query vai selecionar todos os elementos que foi passado no argumento "seletor" e assim adicionando a classe "destaque" nelas 
         const selecionar = seletor => document.querySelectorAll(seletor).forEach(seletor => seletor.classList.add("destaque"));
+        // ...e assim removendo a classe "destaque" delas
         const deselecionar = seletor => document.querySelectorAll(seletor).forEach(seletor => seletor.classList.remove("destaque"));
 
-        //selecionar("div")
-        //deselecionar("div")
-        //selecionar(":nth-child(1)")
+        selecionar("div") // destacar todos os elementos div
+        deselecionar("div") // remover destacação de todos os elementos div
+        selecionar(":nth-child(1)") // destacar a primeira instancia de um elemento de 
         
-        selecionar("[wb-attrib]")
+        selecionar("[wb-attrib]") // destacar todos os elementos que tenha o atributo "wb-attrib"
     </script>
 </body>
 </html>
