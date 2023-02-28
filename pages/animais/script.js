@@ -1,5 +1,5 @@
 function changeImage(imageSrc="images/black.png", text=" ") {
-  const imageDisplay = document.getElementById("imageDisplay")
+  const imageDisplay = document.getElementById("image-display")
   const caption = document.getElementById("caption")
 
   imageDisplay.src = imageSrc
@@ -74,7 +74,7 @@ async function generateAnimalButtons() {
       })
       .join(" ")
 
-    generateButtons("animalButtons", formattedKey, function () {
+    generateButtons("animal-buttons", formattedKey, function () {
       getRandomAnimalFile(key, formattedKey)
     });
   })
