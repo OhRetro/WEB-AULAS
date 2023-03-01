@@ -1,14 +1,23 @@
 @font-face {
     font-family: "MinecraftFont";
-    src: url("fonts/Minecraft.woff2") format('woff2'),
-         url("fonts/Minecraft.woff") format('woff');
+    src: url("fonts/Minecraft.woff2") format("woff2"),
+         url("fonts/Minecraft.woff") format("woff");
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        width: 100%;
+    }    
 }
 
 * {
     color: white;
     font-family: "MinecraftFont", monospace;
-    font-size: large;
     text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}
+
+body, select, button, .fake-button {
+    font-size: medium;
 }
 
 html {
@@ -26,13 +35,13 @@ a, a:hover, a:focus, a:active {
     color: inherit;
 }
 
-select, button, .fake_button {
+select, button, .fake-button {
     border-color: rgb(80, 80, 80);
     background-color: rgb(58, 58, 58);
     border-radius: 5px;
 }
 
-select:hover, button:hover, .fake_button:hover {
+select:hover, button:hover, .fake-button:hover {
     cursor: pointer;
 }
 
@@ -79,15 +88,21 @@ td,
 }
 
 .height1 {
-    height: 500px;
+    height: 25em;
 }
 
-.image_display {
-    width: 500px;
-    height: 300px;
+img.image-display {
+    width: 35em;
+    height: 20em;
 }
 
-.rounded_corners {
+img.small-image-display {
+    width: 30em;
+    height: 19em;
+}
+
+
+.rounded-corners {
     border-radius: 5px;
 }
 
@@ -97,24 +112,24 @@ button.invisible {
     cursor: default;
 }
 
-.margin_left {
-    margin-left: 15px;
+.margin-left {
+    margin-left: 1em;
 }
 
-.margin_right {
-    margin-right: 15px;
+.margin-right {
+    margin-right: 1em;
 }
 
 .padding1 {
-    padding: 10px;
+    padding: 0.5em;
 }
 
-.square_form {
-    height: 50px;
-    width: 50px;
+.square-form {
+    height: 30em;
+    width: 30em;
 }
 
-.float_left {
+.float-left {
     float: left;
 }
 

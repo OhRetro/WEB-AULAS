@@ -7,18 +7,18 @@
         <script src="../../script.js"></script>
         <script src="script.js"></script>
     </head>
-    <body onload="pageTitle('Animais'); changeImage(); generateAnimalOptions()">
-        <h1 class="bgcolor1 bor1 rounded_corners centertext" id="page-body-title"> </h1>
-        <div style="font-size: larger;" class="center bgcolor3 bor1 height1 rounded_corners">
+    <body onload="pageTitle('Animais'); changeImage('images/black.png', ' ', true); generateAnimalOptions()">
+        <h1 class="bgcolor1 bor1 rounded-corners centertext" id="page-body-title"> </h1>
+        <div style="font-size: larger;" class="center bgcolor3 bor1 height1 rounded-corners">
             <br>
             <div>
                 <select id="animal-options"></select>
                 <button id="get-animal-button">Mostrar</button>
             </div>
             <br>
-            <h1 id="caption" class="bgcolor2"></h1>
+            <img id="image-display" class="rounded-corners bor1 image-display zoom zWeak">
             <br>
-            <img id="image-display" class="rounded_corners bor1 image_display">
+            <h1 id="caption" class="rounded-corners bor1 bgcolor2 center zoom zWeak"></h1>
         </div>
     </body>
 </html>
