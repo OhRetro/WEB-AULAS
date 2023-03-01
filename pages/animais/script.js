@@ -1,19 +1,35 @@
-function changeImage(imageSrc = "images/black.png", text = " ") {
+function formatText(text) {
+	return text
+		.replace(/_/g, " ")
+		.split(" ")
+		.map(function (word) {
+			return word.charAt(0).toUpperCase() + word.slice(1)
+		})
+		.join(" ")
+}
+
+function changeImage(imageSrc = "images/black.png", text = " ", loadingMode = false) {
 	const imageDisplay = document.getElementById("image-display")
 	const caption = document.getElementById("caption")
 
 	imageDisplay.src = imageSrc
 	imageDisplay.onload = function () {
 		caption.innerHTML = text
+		if (loadingMode) {
+            imageDisplay.onclick = ""
+        } else {
+            imageDisplay.onclick = function () {
+				open(imageSrc)
+			}
+        }
 	}
 }
 
-function generateButtons(elementId, name, onClick) {
-	const button = document.createElement("button");
-	button.innerHTML = name
-	button.addEventListener("click", onClick, false);
-	button.className = "zoom zNormal"
-	document.getElementById(elementId).appendChild(button);
+function generateOptions(elementId, name, value) {
+	const option = document.createElement("option");
+	option.textContent = name
+	option.value = value
+	document.getElementById(elementId).appendChild(option);
 }
 
 async function requestURL(url, keys = []) {
@@ -50,13 +66,18 @@ async function requestAnimalTranslation(language) {
 }
 
 async function getRandomAnimalFile(animal, displayName) {
-	changeImage("images/loading.gif", "Carregando...")
+	changeImage("images/loading.gif", "Carregando...", true)
 	const animals = await requestAnimalJSON()
 	const selectedAnimal = animals[animal][Math.floor(Math.random() * animals[animal].length)]
 	changeImage(await requestURL(selectedAnimal[0], selectedAnimal[1]), displayName)
+
+	if (document.getElementById("image-display").src.endsWith(".mp4")) {
+		getRandomAnimalFile(animal, displayName)
+	}
 }
 
-async function generateAnimalButtons() {
+async function generateAnimalOptions() {
+	const animalOptions = document.getElementById("animal-options")
 	const animals = await requestAnimalJSON()
 	const translations = await requestAnimalTranslation("pt-br")
 	const blacklistedAnimal = ["duck"]
@@ -66,16 +87,13 @@ async function generateAnimalButtons() {
 			return
 		}
 
-		const formattedKey = translations[key]
-			.replace(/_/g, " ")
-			.split(" ")
-			.map(function (word) {
-				return word.charAt(0).toUpperCase() + word.slice(1)
-			})
-			.join(" ")
+		const formattedKey = formatText(translations[key])
+			
 
-		generateButtons("animal-buttons", formattedKey, function () {
-			getRandomAnimalFile(key, formattedKey)
-		});
+		generateOptions("animal-options", formattedKey, key);
 	})
+
+	document.getElementById("get-animal-button").addEventListener("click", function () {
+		getRandomAnimalFile(animalOptions.value, formatText(translations[animalOptions.value]))
+	}, false);
 }
