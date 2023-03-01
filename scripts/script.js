@@ -36,3 +36,7 @@ function generatePagesLink(section, links) {
         pagesLink.appendChild(li);
     });
 }
+
+function test() {
+    console.log("Testing")
+}

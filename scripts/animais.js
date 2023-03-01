@@ -30,6 +30,7 @@ function generateOptions(elementId, name, value) {
 	option.textContent = name
 	option.value = value
 	document.getElementById(elementId).appendChild(option);
+	test()
 }
 
 async function requestURL(url, keys = []) {
