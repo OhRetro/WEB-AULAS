@@ -11,16 +11,24 @@
         <h1 class="centertext bor1 bgcolor1 rounded-corners" id="page-body-title"> </h1>
 
         <div class="bor1 bgcolor3 centercontents height1 rounded-corners">
-            <div class="margin-left" style="float:left">
-                <p style="font-size: xx-large;">Páginas:</p>
-                <ul style="font-size: x-large;" id="pages-link"></ul>
+            <div class="margin-left float-left">
+                <p style="font-size: x-large;">Páginas:</p>
+                <ul style="font-size: x-large;" id="pages-link-0"></ul>
+            </div>
+            <div class="margin-left float-left">
+                <p style="font-size: x-large;"> </p>
+                <ul style="font-size: x-large;" id="pages-link-1"></ul>
+            </div>
+            <div class="margin-left float-left">
+                <p style="font-size: x-large;"> </p>
+                <ul style="font-size: x-large;" id="pages-link-2"></ul>
             </div>
         </div>
     </body>
     <script>
-        generatePagesLink([
-            ['bolo_limão', 'Bolo de Limão'],
-            ['animais', 'Animais']
+        generatePagesLink(0, [
+            ["bolo_limão", "Bolo de Limão"],
+            ["animais", "Animais"]
         ]);
     </script>
 </html>

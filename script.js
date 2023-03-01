@@ -21,8 +21,8 @@ function pageTitle(title="", prevType=0) {
     bodyTitle.textContent = "WEB-AULAS";
 }
 
-function generatePagesLink(links) {
-    const pagesLink = document.getElementById("pages-link");
+function generatePagesLink(section, links) {
+    const pagesLink = document.getElementById("pages-link-"+section);
 
     links.forEach(element => {
         const li = document.createElement("li")
