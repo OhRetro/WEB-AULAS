@@ -1,13 +1,3 @@
-function formatText(text) {
-	return text
-		.replace(/_/g, " ")
-		.split(" ")
-		.map(function (word) {
-			return word.charAt(0).toUpperCase() + word.slice(1)
-		})
-		.join(" ")
-}
-
 function changeImage(imageSrc = "images/black.png", text = " ", loadingMode = false) {
 	const imageDisplay = document.getElementById("image-display")
 	const caption = document.getElementById("caption")
@@ -30,7 +20,6 @@ function generateOptions(elementId, name, value) {
 	option.textContent = name
 	option.value = value
 	document.getElementById(elementId).appendChild(option);
-	test()
 }
 
 async function requestURL(url, keys = []) {

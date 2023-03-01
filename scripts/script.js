@@ -37,6 +37,12 @@ function generatePagesLink(section, links) {
     });
 }
 
-function test() {
-    console.log("Testing")
+function formatText(text) {
+	return text
+		.replace(/_/g, " ")
+		.split(" ")
+		.map(function (word) {
+			return word.charAt(0).toUpperCase() + word.slice(1)
+		})
+		.join(" ")
 }
