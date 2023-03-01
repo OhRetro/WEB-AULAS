@@ -15,25 +15,6 @@ function changeImage(imageSrc = "images/black.png", text = " ", loadingMode = 
 	}
 }
 
-function generateOptions(elementId, name, value) {
-	const option = document.createElement("option");
-	option.textContent = name
-	option.value = value
-	document.getElementById(elementId).appendChild(option);
-}
-
-async function requestURL(url, keys = []) {
-	const response = await fetch(url)
-	if (!response.ok) {
-		throw new Error(response.statusText)
-	}
-	var result = await response.json()
-	keys.forEach(function (key) {
-		result = result[key];
-	});
-	return await result
-}
-
 async function requestGistAnimals() {
 	const url = "https://api.github.com/gists/1a029cb0a734249019eadbb58013cc4d"
 	const keys = ["files", "animals.json", "raw_url"]
