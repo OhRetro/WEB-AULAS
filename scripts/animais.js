@@ -1,3 +1,5 @@
+const animalJsonUrl = "https://raw.githubusercontent.com/NOVOTEC-NAKA/API/main/jsons/animals.json"
+
 function changeImage(imageSrc = "images/black.png", text = " ", loadingMode = false) {
 	const imageDisplay = document.getElementById("image-display")
 	const caption = document.getElementById("caption")
@@ -16,16 +18,14 @@ function changeImage(imageSrc = "images/black.png", text = " ", loadingMode = 
 }
 
 async function requestAnimalJSON() {
-	const url = "https://raw.githubusercontent.com/NOVOTEC-NAKA/API/main/jsons/animals.json"
 	const keys = ["media"]
-	const data = await requestURL(url, keys)
+	const data = await requestURL(animalJsonUrl, keys)
 	return await data
 }
 
 async function requestAnimalTranslation(language) {
-	const url = "https://raw.githubusercontent.com/NOVOTEC-NAKA/API/main/jsons/animals.json"
 	const keys = ["translations", language]
-	const data = await requestURL(url, keys)
+	const data = await requestURL(animalJsonUrl, keys)
 	return await data
 }
 
@@ -50,11 +50,8 @@ async function generateAnimalOptions() {
 		if (blacklistedAnimal.includes(key)) {
 			return
 		}
-
 		const formattedKey = formatText(translations[key])
-			
-
-		generateOptions("animal-options", formattedKey, key);
+		generateOption("animal-options", formattedKey, key);
 	})
 
 	document.getElementById("get-animal-button").addEventListener("click", function () {

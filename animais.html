@@ -8,7 +8,7 @@
         <script src="scripts/script.js"></script>
         <script src="scripts/animais.js"></script>
     </head>
-    <body onload="pageTitle('Animais'); changeImage('images/black.png', ' ', true); generateAnimalOptions()">
+    <body>
         <h1 class="bgcolor1 bor1 rounded-corners centertext" id="page-body-title"> </h1>
         <div style="font-size: larger;" class="center bgcolor3 bor1 height1 rounded-corners">
             <br>
@@ -22,4 +22,9 @@
             <h1 id="caption" class="rounded-corners bor1 bgcolor2 center zoom zWeak"></h1>
         </div>
     </body>
+    <script>
+        pageTitle("Animais");
+        changeImage("images/black.png", " ", true);
+        generateAnimalOptions();
+    </script>
 </html>

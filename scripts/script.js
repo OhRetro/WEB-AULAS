@@ -37,11 +37,27 @@ function generatePagesLink(section, links) {
     });
 }
 
-function generateOptions(elementId, name, value) {
+function generateOption(elementId, name, value) {
 	const option = document.createElement("option");
-	option.textContent = name
-	option.value = value
+	option.textContent = name;
+	option.value = value;
 	document.getElementById(elementId).appendChild(option);
+    return option;
+}
+
+function generateButton(elementId, name, onClick) {
+    const button = document.createElement("button");
+    button.textContent = name;
+    button.addEventListener("click", onClick, false)
+    document.getElementById(elementId).appendChild(button);
+    return button;
+}
+
+function generateListItem(elementId, name) {
+    const li = document.createElement("li");
+    li.textContent = name;
+    document.getElementById(elementId).appendChild(li);
+    return li;
 }
 
 async function requestURL(url, keys = []) {

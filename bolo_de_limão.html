@@ -6,65 +6,72 @@
         <link rel="icon" type="image/x-icon" href="favicon.ico">
         <link rel="stylesheet" type="text/css" href="styles/style.css">
         <script src="scripts/script.js"></script>
+        <script src="scripts/bolo_de_limão.js"></script>
     </head>
-    <body onload="pageTitle('Bolo de Limão');">
+    <body>
         <h1 class="bgcolor1 bor1 rounded-corners centertext" id="page-body-title"> </h1>
 
         <div style="font-size: larger; width: 75%; height: 1300px;" class="center bgcolor3 bor1 rounded-corners">
             <h1 class="zoom zWeak">Como fazer Bolo de Limão</h1>
             
-            <img src="images/bolo_de_limão_2.webp"
-                class="rounded-corners bor1 small-image-display margin-left
-                float-left zoom zWeak">
-
-            <div class="float-left margin-left", style="text-align: left;">
-                <p style="font-size: xx-large;" class="zoom zNormal">Ingredientes:</p>
+            <img src="images/bolo_de_limão_2.webp" class="rounded-corners bor1 small-image-display margin-left float-left zoom zWeak">
+            
+            <div class="float-left margin-left" style="text-align: left;">
+                <p style="font-size: xx-large;" class="zoom zWeak">Ingredientes:</p>
                 <p class="zoom zNormal">Massa:</p>
-                <ul>
-                    <li class="zoom zWeak">3 Ovos</li>
-                    <li class="zoom zWeak">2 Xícara de açúcar</li>
-                    <li class="zoom zWeak">2 e 1/2 Xícara de farinha de trigo</li>
-                    <li class="zoom zWeak">1/2 Xícara de óleo</li>
-                    <li class="zoom zWeak">1 Xícara de leite morno</li>
-                    <li class="zoom zWeak">1 Colher de fermento em pó</li>
-                    <li class="zoom zWeak">Raspas de 1 limão</li>
-                    <li class="zoom zWeak">Suco de 1 limão</li>
-                    <br>
-                </ul>
+                <ul class="zoom zWeak" id="bolo-massa-ingredientes"></ul>
+                <br><br>
             </div>
             
-            <img src="images/bolo_de_limão_0.webp"
-                class="rounded-corners bor1 small-image-display margin-left
-                float-left zoom zWeak">
+            <img src="images/bolo_de_limão_0.webp" class="rounded-corners bor1 small-image-display margin-left float-left zoom zWeak">
 
-            <div class="float-left margin-left", style="text-align: left;">
+            <div class="float-left margin-left" style="text-align: left;">
                 <p class="zoom zNormal">Calda:</p>
-                <ul>
-                    <li class="zoom zWeak">1 Lata leite condensado</li>
-                    <li class="zoom zWeak">1 Caixinha creme de leite</li>
-                    <li class="zoom zWeak">200ml de Suco de limão</li>
-                </ul>
+                <ul class="zoom zWeak" id="bolo-calda-ingredientes"></ul>
             </div>
 
-            <div class="float-left margin-left", style="text-align: left;">
+            <div class="float-left margin-left" style="text-align: left;">
                 <p style="font-size: xx-large;" class="zoom zWeak">Modo de Preparo:</p>
                 <p class="zoom zWeak">Bolo:</p>
-                <ul>
-                    <li class="zoom zWeak">Bata no liquidificador os ovos o óleo o leite e o açúcar por aproximadamente 3 minutos.</li>
-                    <li class="zoom zWeak">Em seguida adicione o suco a farinha e as raspas de limão e bata por 1 minuto.</li>
-                    <li class="zoom zWeak">Adicione o fermento e mexa bem até ficar homogênea.</li>
-                    <li class="zoom zWeak">Coloque em uma forma redonda untada e enfarinhada e leve ao forno pré aquecido a 180 graus por 35 a 45 minutos.</li>
-                </ul>
+                <ul class="zoom zWeak" id="bolo-massa-preparo"></ul>
             </div>
 
-            <div class="float-left margin-left", style="text-align: left;">
+            <div class="float-left margin-left" style="text-align: left;">
                 <p class="zoom zWeak">Calda:</p>
-                <ul>
-                    <li class="zoom zWeak">Bata tudo no liquidificador por 3 minutos e leve a geladeira por 30 minutos.</li>
-                    <li class="zoom zWeak">Desenforme o bolo e espere esfriar completamente.</li>
-                    <li class="zoom zWeak">Cubra seu bolo com a cobertura e sirva em seguida.</li>
-                </ul>
+                <ul class="zoom zWeak" id="bolo-calda-preparo"></ul>
             </div>
         </div>
     </body>
+    <script>
+        pageTitle("Bolo de Limão");
+        generateListItems("bolo-massa-ingredientes", [
+            "3 Ovos", 
+            "2 Xícara de açúcar",
+            "2 e 1/2 Xícara de farinha de trigo",
+            "1/2 Xícara de óleo",
+            "1 Xícara de leite morno",
+            "1 Colher de fermento em pó",
+            "Raspas de 1 limão",
+            "Suco de 1 limão"
+        ]);
+
+        generateListItems("bolo-calda-ingredientes", [
+            "1 Lata leite condensado",
+            "1 Caixinha creme de leite",
+            "200ml de Suco de limão"
+        ]);
+        
+        generateListItems("bolo-massa-preparo", [
+            "Bata no liquidificador os ovos o óleo o leite e o açúcar por aproximadamente 3 minutos.",
+            "Em seguida adicione o suco a farinha e as raspas de limão e bata por 1 minuto.",
+            "Adicione o fermento e mexa bem até ficar homogênea.",
+            "Coloque em uma forma redonda untada e enfarinhada e leve ao forno pré aquecido a 180 graus por 35 a 45 minutos."
+        ]);
+
+        generateListItems("bolo-calda-preparo", [
+            "Bata tudo no liquidificador por 3 minutos e leve a geladeira por 30 minutos.",
+            "Desenforme o bolo e espere esfriar completamente.",
+            "Cubra seu bolo com a cobertura e sirva em seguida."
+        ]);
+    </script>
 </html>
