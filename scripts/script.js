@@ -37,6 +37,25 @@ function generatePagesLink(section, links) {
     });
 }
 
+function generateOptions(elementId, name, value) {
+	const option = document.createElement("option");
+	option.textContent = name
+	option.value = value
+	document.getElementById(elementId).appendChild(option);
+}
+
+async function requestURL(url, keys = []) {
+	const response = await fetch(url)
+	if (!response.ok) {
+		throw new Error(response.statusText)
+	}
+	var result = await response.json()
+	keys.forEach(function (key) {
+		result = result[key];
+	});
+	return await result
+}
+
 function formatText(text) {
 	return text
 		.replace(/_/g, " ")
