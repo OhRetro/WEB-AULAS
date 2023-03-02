@@ -15,22 +15,15 @@ function changeImage(imageSrc = "images/black.png", text = " ", loadingMode = 
 	}
 }
 
-async function requestGistAnimals() {
-	const url = "https://api.github.com/gists/1a029cb0a734249019eadbb58013cc4d"
-	const keys = ["files", "animals.json", "raw_url"]
-	const data = await requestURL(url, keys)
-	return await data
-}
-
 async function requestAnimalJSON() {
-	const url = await requestGistAnimals()
-	const keys = ["files"]
+	const url = "https://novotec-naka.github.io/API/jsons/animals.json"
+	const keys = ["media"]
 	const data = await requestURL(url, keys)
 	return await data
 }
 
 async function requestAnimalTranslation(language) {
-	const url = await requestGistAnimals()
+	const url = "https://novotec-naka.github.io/API/jsons/animals.json"
 	const keys = ["translations", language]
 	const data = await requestURL(url, keys)
 	return await data
