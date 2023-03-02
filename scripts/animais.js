@@ -16,14 +16,14 @@ function changeImage(imageSrc = "images/black.png", text = " ", loadingMode = 
 }
 
 async function requestAnimalJSON() {
-	const url = "https://novotec-naka.github.io/API/jsons/animals.json"
+	const url = "https://raw.githubusercontent.com/NOVOTEC-NAKA/API/main/jsons/animals.json"
 	const keys = ["media"]
 	const data = await requestURL(url, keys)
 	return await data
 }
 
 async function requestAnimalTranslation(language) {
-	const url = "https://novotec-naka.github.io/API/jsons/animals.json"
+	const url = "https://raw.githubusercontent.com/NOVOTEC-NAKA/API/main/jsons/animals.json"
 	const keys = ["translations", language]
 	const data = await requestURL(url, keys)
 	return await data
@@ -45,7 +45,7 @@ async function generateAnimalOptions() {
 	const animals = await requestAnimalJSON()
 	const translations = await requestAnimalTranslation("pt-br")
 	const blacklistedAnimal = ["duck"]
-
+	
 	Object.keys(animals).forEach(function (key) {
 		if (blacklistedAnimal.includes(key)) {
 			return
