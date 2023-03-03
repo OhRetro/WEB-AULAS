@@ -81,3 +81,7 @@ function formatText(text) {
 		})
 		.join(" ")
 }
+
+function chooseRandomItem(list) {
+    return list[Math.floor(Math.random()*list.length)]
+}

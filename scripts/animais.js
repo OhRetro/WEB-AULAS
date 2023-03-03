@@ -32,7 +32,7 @@ async function requestAnimalTranslation(language) {
 async function getRandomAnimalFile(animal, displayName) {
 	changeImage("images/loading.gif", "Carregando...", true)
 	const animals = await requestAnimalJSON()
-	const selectedAnimal = animals[animal][Math.floor(Math.random() * animals[animal].length)]
+	const selectedAnimal = chooseRandomItem(animals[animal])
 	changeImage(await requestURL(selectedAnimal[0], selectedAnimal[1]), displayName)
 
 	if (document.getElementById("image-display").src.endsWith(".mp4")) {

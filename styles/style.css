@@ -49,7 +49,7 @@ table,
 th,
 td,
 .bor1 {
-    border: 1px solid white;
+    border: 0.1em solid white;
 }
 
 .centertext,
@@ -112,7 +112,7 @@ button.invisible {
     cursor: default;
 }
 
-.margin-left {
+.margin-left, .left {
     margin-left: 1em;
 }
 
@@ -129,8 +129,12 @@ button.invisible {
     width: 30em;
 }
 
-.float-left {
+.float-left, .left{
     float: left;
+}
+
+.text-left, .left {
+    text-align: left;
 }
 
 .zoom {
