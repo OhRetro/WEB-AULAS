@@ -1,4 +1,4 @@
-const animalJsonUrl = "https://raw.githubusercontent.com/NOVOTEC-NAKA/API/main/jsons/animals.json"
+const animalJsonUrl = "https://oreto-api.vercel.app/api/animals"
 
 function changeImage(imageSrc = "images/black.png", text = " ", loadingMode = false) {
 	const imageDisplay = document.getElementById("image-display")
