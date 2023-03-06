@@ -1,4 +1,4 @@
-const animalJsonUrl = "https://oreto-api.vercel.app/api/animals"
+const animalsJsonUrl = "https://oreto-api.vercel.app/api/animals"
 
 function changeImage(imageSrc = "images/black.png", text = " ", loadingMode = false) {
 	const imageDisplay = document.getElementById("image-display")
@@ -18,36 +18,32 @@ function changeImage(imageSrc = "images/black.png", text = " ", loadingMode = 
 }
 
 async function requestAnimalJSON() {
-	const keys = ["media"]
-	const data = await requestURL(animalJsonUrl, keys)
-	return await data
-}
-
-async function requestAnimalTranslation(language) {
-	const keys = ["translations", language]
-	const data = await requestURL(animalJsonUrl, keys)
-	return await data
+	return await requestURL(animalsJsonUrl)
 }
 
 async function getRandomAnimalFile(animal, displayName) {
 	changeImage("images/loading.gif", "Carregando...", true)
-	const animals = await requestAnimalJSON()
-	const selectedAnimal = chooseRandomItem(animals[animal])
-	changeImage(await requestURL(selectedAnimal[0], selectedAnimal[1]), displayName)
 
+	const animalsJson = await requestAnimalJSON()
+	const animals = await animalsJson["media"]
+	const selectedAnimal = chooseRandomItem(animals[animal])
+
+	changeImage(await requestURL(selectedAnimal[0], selectedAnimal[1]), displayName)
+	
 	if (document.getElementById("image-display").src.endsWith(".mp4")) {
 		getRandomAnimalFile(animal, displayName)
 	}
 }
 
-async function generateAnimalOptions() {
+async function generateAnimalOptions(language) {
 	const animalOptions = document.getElementById("animal-options")
-	const animals = await requestAnimalJSON()
-	const translations = await requestAnimalTranslation("pt-br")
-	const blacklistedAnimal = ["duck"]
+	const animalsJson = await requestAnimalJSON()
+	const animals = await animalsJson["media"]
+	const translations = await animalsJson["translations"][language]
+	const blacklistedAnimals = ["duck"]
 	
 	Object.keys(animals).forEach(function (key) {
-		if (blacklistedAnimal.includes(key)) {
+		if (blacklistedAnimals.includes(key)) {
 			return
 		}
 		const formattedKey = formatText(translations[key])

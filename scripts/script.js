@@ -1,5 +1,5 @@
 function pageTitle(title="", prevType=0, typeOne="index.html") {
-    const prevTypes = [["index.html", "Home"], [typeOne, "Voltar"]]
+    const prevTypes = [["index.html", "Home"], [typeOne, "Voltar"], ["https://github.com/NOVOTEC-NAKA/WEB-AULAS", "GitHub"]]
 
     const bodyTitle = document.getElementById("page-body-title");
     bodyTitle.textContent = "";
