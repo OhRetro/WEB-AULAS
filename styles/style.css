@@ -49,7 +49,7 @@ table,
 th,
 td,
 .bor1 {
-    border: 0.1em solid white;
+    border: 0.15em solid white;
 }
 
 .centertext,
@@ -103,7 +103,7 @@ img.small-image-display {
 
 
 .rounded-corners {
-    border-radius: 5px;
+    border-radius: 0.25em;
 }
 
 button.invisible {
