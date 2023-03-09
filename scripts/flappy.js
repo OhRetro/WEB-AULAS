@@ -121,16 +121,40 @@ class Bird {
         this.element.src = "./images/flappy_duck.png";
         this.getY = () => parseInt(this.element.style.bottom.split("px")[0]);
         this.setY = y => this.element.style.bottom = `${y}px`;
-        this.setRotation = r => this.element.style.transform = `rotate(${r}deg)`;
 
         let velocity = 0;
         let rotation = 0;
+        let hasJumped = false;
 
         document.addEventListener("keydown", event => {
-            if (event.code === "Space") {
+            if (event.code === "Space" && !hasJumped) {
                 this.jumpSound.play()
                 velocity = 10;
                 rotation = -20;
+                hasJumped = true
+                this.setRotation(rotation);
+            }
+        });
+
+        document.addEventListener("mousedown", event => {
+            if (event.button === 0 && !hasJumped) {
+                this.jumpSound.play()
+                velocity = 10;
+                rotation = -20;
+                hasJumped = true;
+                this.setRotation(rotation);
+            }
+        });
+
+        document.addEventListener("keyup", event => {
+            if (event.code === "Space" && hasJumped) {
+                hasJumped = false
+            }
+        });
+
+        document.addEventListener("mouseup", event => {
+            if (event.button === 0 && hasJumped) {
+                hasJumped = false;
             }
         });
 
@@ -142,22 +166,28 @@ class Bird {
 
             if (velocity < -8) {
                 rotation = 20;
+                this.setRotation(rotation);
             }
 
             if (newY <= 0) {
                 this.setY(0);
                 velocity = 0;
+                rotation = 0;
             } else if (newY >= maximumHeight) {
                 this.setY(maximumHeight);
                 velocity = 0;
+                rotation = 0;
             } else {
                 this.setY(newY);
             }
-
-            this.setRotation(rotation);
         };
 
         this.setY(gameAreaHeight / 2);
+    }
+
+    setRotation(degrees) {
+        this.element.style.transition = "transform 0.2s ease-out";
+        this.element.style.transform = `rotate(${degrees}deg)`;
     }
 }
 
@@ -197,8 +227,11 @@ function collided(bird, barriers) {
 class Game {
     constructor() {
         const gameArea = document.querySelector("[wm-flappy]")
-        var currentPopup = null
+        const width = gameArea.clientWidth;
+        const height = gameArea.clientHeight;
 
+        var currentPopup = null
+        const bird = new Bird(height);
 
         this.clearGame = () => {
             gameArea.innerHTML = "";
@@ -229,72 +262,74 @@ class Game {
         // Start of game code
         this.clearGame()
 
-        const mainMenuMusic = new AudioEngine("main-menu-music", "sounds/main_menu_music.wav", "0.6", true)
-        const gameMusic = new AudioEngine("game-music", "sounds/game_music.wav", "0.9", true)
-        const gameOverMusic = new AudioEngine("gameover-music", "sounds/gameover_music.wav", "0.6", true)
-        const pointSound = new AudioEngine("point-sound", "sounds/point.wav", "0.3")
-
-        gameArea.className = "normal-bgd center";
-
-        let points = 0;
-        const width = gameArea.clientWidth;
-        const height = gameArea.clientHeight;
-
-        const progress = new Progress();
-        const barriers = new Barriers(99, height, width, 300, 400, () => {
-            progress.updatePoints(++points)
-            pointSound.play()
-        });
-        const bird = new Bird(height);
-
-        gameArea.appendChild(bird.element);
-        barriers.pairs.forEach(pair => gameArea.appendChild(pair.element));
+        this.generate = () => {
+            this.mainMenuMusic = new AudioEngine("main-menu-music", "sounds/main_menu_music.wav", "0.6", true)
+            this.gameMusic = new AudioEngine("game-music", "sounds/game_music.wav", "0.9", true)
+            this.gameOverMusic = new AudioEngine("gameover-music", "sounds/gameover_music.wav", "0.6", true)
+            this.pointSound = new AudioEngine("point-sound", "sounds/point.wav", "0.3")
+    
+            gameArea.className = "normal-bgd center";
+    
+            this.points = 0;
+           
+    
+            this.progress = new Progress();
+            this.barriers = new Barriers(99, height, width, 300, 400, () => {
+                this.progress.updatePoints(++this.points)
+                this.pointSound.play()
+            });
+    
+            gameArea.appendChild(bird.element);
+            this.barriers.pairs.forEach(pair => gameArea.appendChild(pair.element));
+        }
 
         // End of game code
 
         this.start = () => {
-            gameMusic.play()
-            mainMenuMusic.stop()
+            this.gameMusic.play()
+            this.mainMenuMusic.stop()
 
             currentPopup ? currentPopup.remove() : null;
-            gameArea.appendChild(progress.element);
+            gameArea.appendChild(this.progress.element);
 
             currentIntervalId = setInterval(() => {
-                barriers.animate();
+                this.barriers.animate();
                 bird.animate()
 
-                if (collided(bird, barriers)) {
+                if (collided(bird, this.barriers)) {
                     this.gameOver()
                 }
             }, 20);
         };
 
         this.restart = () => {
-            gameOverMusic.stop()
+            this.gameOverMusic.stop()
             clearInterval(currentIntervalId);
-            game = new Game()
-            game.start()
+            this.generate()
+            this.start()
         }
 
         this.gameOver = () => {
             clearInterval(currentIntervalId);
-            gameMusic.stop()
+            this.gameMusic.stop()
             bird.hitSound.play()
 
             setTimeout(() => {
                 this.clearGame()
                 bird.dieSound.play()
 
-                gameOverMusic.play()
-                
-                currentPopup = this.popup(["Game Over", `Pontos: ${points}`], ["Jogar Denovo?", this.restart])
+                this.gameOverMusic.play()
+
+                currentPopup = this.popup(["Game Over", `Pontos: ${this.points}`], ["Jogar Denovo?", this.restart])
             }, 500);
         };
 
         this.showMainMenu = () => {
-            mainMenuMusic.play()
+            this.mainMenuMusic.play()
             currentPopup = this.popup(["Flappy"], ["Jogar", this.start])
         }
+
+        this.generate()
     }
 }
 
