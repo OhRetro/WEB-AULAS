@@ -10,19 +10,23 @@ function createElement(tagName, className = "") {
 
 class AudioEngine {
     constructor(audioId, audioSource, audioVolume = 1, audioLooped = false) {
-        this.audioElement = createElement("audio")
-        audioElement.setAttributes("id", audioId)
-        audioElement.setAttributes("src", audioSource)
-        audioElement.setAttributes("volume", audioVolume)
-        audioElement.setAttribute("loop", audioLooped ? "true" : "false")
+        this.element = createElement("audio")
+        this.element.setAttribute("id", audioId)
+        this.element.setAttribute("src", audioSource)
+        this.element.setAttribute("volume", audioVolume)
+        audioLooped ? this.element.setAttribute("loop", "") : null;
 
         this.play = () => {
-            this.audioElement.play()
+            this.element.play()
         }
 
         this.stop = () => {
-            audioElement.pause()
-            audioElement.currentTime = 0
+            this.element.pause()
+            this.element.currentTime = 0
+        }
+
+        this.remove = () => {
+            this.element.remove()
         }
     }
 }
@@ -109,26 +113,48 @@ class Barriers {
 
 class Bird {
     constructor(gameAreaHeight) {
-        let flying = false;
+        this.jumpSound = new AudioEngine("jump-sound", "sounds/jump.wav", "0.6")
+        this.hitSound = new AudioEngine("hit-sound", "sounds/hit.wav", "0.5")
+        this.dieSound = new AudioEngine("die-sound", "sounds/die.wav", "0.5")
+
         this.element = createElement("img", "bird");
         this.element.src = "./images/flappy_duck.png";
         this.getY = () => parseInt(this.element.style.bottom.split("px")[0]);
         this.setY = y => this.element.style.bottom = `${y}px`;
+        this.setRotation = r => this.element.style.transform = `rotate(${r}deg)`;
 
-        window.onkeydown = e => flying = true;
-        window.onkeyup = e => flying = false;
+        let velocity = 0;
+        let rotation = 0;
+
+        document.addEventListener("keydown", event => {
+            if (event.code === "Space") {
+                this.jumpSound.play()
+                velocity = 10;
+                rotation = -20;
+            }
+        });
 
         this.animate = () => {
-            const newY = this.getY() + (flying ? 8 : -5);
+            const newY = this.getY() + velocity;
             const maximumHeight = gameAreaHeight - this.element.clientHeight;
+
+            velocity -= 1;
+
+            if (velocity < -8) {
+                rotation = 20;
+            }
 
             if (newY <= 0) {
                 this.setY(0);
+                velocity = 0;
             } else if (newY >= maximumHeight) {
                 this.setY(maximumHeight);
+                velocity = 0;
             } else {
                 this.setY(newY);
             }
+
+            this.setRotation(rotation);
         };
 
         this.setY(gameAreaHeight / 2);
@@ -173,15 +199,14 @@ class Game {
         const gameArea = document.querySelector("[wm-flappy]")
         var currentPopup = null
 
-        const mainMenuMusic = new AudioEngine("main-menu-music", "sounds/main_menu_music.wav", "0.6", true)
-        
+
         this.clearGame = () => {
             gameArea.innerHTML = "";
         }
 
-        this.popup = function(texts, buttonSettings) {
+        this.popup = function (texts, buttonSettings) {
             const popup = createElement("div", "bor1 bgcolor3 center rounded-corners popup")
-            popup.setAttribute
+            popup.setAttribute("id", "popup")
 
             texts.forEach(item => {
                 const text = createElement("h1")
@@ -203,9 +228,14 @@ class Game {
 
         // Start of game code
         this.clearGame()
-        setAudioSource("bgd-music", "sounds/bgd_music.mp3")
+
+        const mainMenuMusic = new AudioEngine("main-menu-music", "sounds/main_menu_music.wav", "0.6", true)
+        const gameMusic = new AudioEngine("game-music", "sounds/game_music.wav", "0.9", true)
+        const gameOverMusic = new AudioEngine("gameover-music", "sounds/gameover_music.wav", "0.6", true)
+        const pointSound = new AudioEngine("point-sound", "sounds/point.wav", "0.3")
+
         gameArea.className = "normal-bgd center";
-        
+
         let points = 0;
         const width = gameArea.clientWidth;
         const height = gameArea.clientHeight;
@@ -213,20 +243,22 @@ class Game {
         const progress = new Progress();
         const barriers = new Barriers(99, height, width, 300, 400, () => {
             progress.updatePoints(++points)
-            playAudio("point")
+            pointSound.play()
         });
         const bird = new Bird(height);
 
         gameArea.appendChild(bird.element);
         barriers.pairs.forEach(pair => gameArea.appendChild(pair.element));
-        
+
         // End of game code
-        
+
         this.start = () => {
+            gameMusic.play()
+            mainMenuMusic.stop()
+
             currentPopup ? currentPopup.remove() : null;
             gameArea.appendChild(progress.element);
-            playAudio("bgd-music")
-            
+
             currentIntervalId = setInterval(() => {
                 barriers.animate();
                 bird.animate()
@@ -236,27 +268,31 @@ class Game {
                 }
             }, 20);
         };
-        
+
         this.restart = () => {
+            gameOverMusic.stop()
             clearInterval(currentIntervalId);
             game = new Game()
             game.start()
         }
-        
+
         this.gameOver = () => {
             clearInterval(currentIntervalId);
-            stopAudio("bgd-music")
-            playAudio("hit")
-            
+            gameMusic.stop()
+            bird.hitSound.play()
+
             setTimeout(() => {
                 this.clearGame()
-                playAudio("die");
+                bird.dieSound.play()
 
+                gameOverMusic.play()
+                
                 currentPopup = this.popup(["Game Over", `Pontos: ${points}`], ["Jogar Denovo?", this.restart])
             }, 500);
         };
 
         this.showMainMenu = () => {
+            mainMenuMusic.play()
             currentPopup = this.popup(["Flappy"], ["Jogar", this.start])
         }
     }
