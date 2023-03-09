@@ -122,66 +122,68 @@ class Bird {
         this.getY = () => parseInt(this.element.style.bottom.split("px")[0]);
         this.setY = y => this.element.style.bottom = `${y}px`;
 
-        let velocity = 0;
-        let rotation = 0;
-        let hasJumped = false;
+        this.velocity = 0;
+        this.rotation = 0;
+        this.hasJumped = false;
 
         document.addEventListener("keydown", event => {
-            if (event.code === "Space" && !hasJumped) {
+            if (event.code === "Space" && !this.hasJumped && isPlayingGame) {
                 this.jumpSound.play()
-                velocity = 10;
-                rotation = -20;
-                hasJumped = true
-                this.setRotation(rotation);
+                this.velocity = 10;
+                this.rotation = -20;
+                this.hasJumped = true
+                this.setRotation(this.rotation);
             }
         });
 
         document.addEventListener("mousedown", event => {
-            if (event.button === 0 && !hasJumped) {
+            if (event.button === 0 && !this.hasJumped && isPlayingGame) {
                 this.jumpSound.play()
-                velocity = 10;
-                rotation = -20;
-                hasJumped = true;
-                this.setRotation(rotation);
+                this.velocity = 10;
+                this.rotation = -20;
+                this.hasJumped = true;
+                this.setRotation(this.rotation);
             }
         });
 
         document.addEventListener("keyup", event => {
-            if (event.code === "Space" && hasJumped) {
-                hasJumped = false
+            if (event.code === "Space" && this.hasJumped && isPlayingGame) {
+                this.hasJumped = false
             }
         });
 
         document.addEventListener("mouseup", event => {
-            if (event.button === 0 && hasJumped) {
-                hasJumped = false;
+            if (event.button === 0 && this.hasJumped && isPlayingGame) {
+                this.hasJumped = false;
             }
         });
 
         this.animate = () => {
-            const newY = this.getY() + velocity;
+            const newY = this.getY() + this.velocity;
             const maximumHeight = gameAreaHeight - this.element.clientHeight;
 
-            velocity -= 1;
+            this.velocity -= 1;
 
-            if (velocity < -8) {
-                rotation = 20;
-                this.setRotation(rotation);
+            if (this.velocity < -8) {
+                this.rotation = 20;
+                this.setRotation(this.rotation);
             }
 
             if (newY <= 0) {
                 this.setY(0);
-                velocity = 0;
-                rotation = 0;
-            } else if (newY >= maximumHeight) {
+                this.velocity = 0;
+                this.rotation = 0;
+                this.setRotation(this.rotation);
+            } else if (newY > maximumHeight) {
                 this.setY(maximumHeight);
-                velocity = 0;
-                rotation = 0;
+                this.velocity = 0;
+                this.rotation = 0;
+                this.setRotation(this.rotation);
             } else {
                 this.setY(newY);
             }
         };
-
+        
         this.setY(gameAreaHeight / 2);
     }
 
@@ -230,6 +232,7 @@ class Game {
         const width = gameArea.clientWidth;
         const height = gameArea.clientHeight;
 
+
         var currentPopup = null
         const bird = new Bird(height);
 
@@ -259,9 +262,6 @@ class Game {
             return popup
         }
 
-        // Start of game code
-        this.clearGame()
-
         this.generate = () => {
             this.mainMenuMusic = new AudioEngine("main-menu-music", "sounds/main_menu_music.wav", "0.6", true)
             this.gameMusic = new AudioEngine("game-music", "sounds/game_music.wav", "0.9", true)
@@ -283,13 +283,18 @@ class Game {
             this.barriers.pairs.forEach(pair => gameArea.appendChild(pair.element));
         }
 
-        // End of game code
-
         this.start = () => {
+            isPlayingGame = true;
             this.gameMusic.play()
             this.mainMenuMusic.stop()
 
             currentPopup ? currentPopup.remove() : null;
+
+            (bird.getY() != height / 2) ? bird.setY(height / 2) : null;
+            (bird.velocity != 0) ? 0 : null;
+            (bird.rotation != 0) ? 0 : null;
+            bird.setRotation(bird.rotation)
+
             gameArea.appendChild(this.progress.element);
 
             currentIntervalId = setInterval(() => {
@@ -310,6 +315,7 @@ class Game {
         }
 
         this.gameOver = () => {
+            isPlayingGame = false
             clearInterval(currentIntervalId);
             this.gameMusic.stop()
             bird.hitSound.play()
@@ -334,4 +340,5 @@ class Game {
 }
 
 var currentIntervalId = null
+var isPlayingGame = false
 var game = null
