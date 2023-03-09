@@ -1,26 +1,53 @@
-var isSpecialModeOn = false;
-
-function toggleSpecialMode() {
-    isSpecialModeOn = !isSpecialModeOn;
-}
-
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function createElement(tagName, className) {
+function createElement(tagName, className = "") {
     const element = document.createElement(tagName);
     element.className = className;
     return element;
 }
 
+class AudioEngine {
+    constructor(audioId, audioSource, audioVolume = 1, audioLooped = false) {
+        this.audioElement = createElement("audio")
+        audioElement.setAttributes("id", audioId)
+        audioElement.setAttributes("src", audioSource)
+        audioElement.setAttributes("volume", audioVolume)
+        audioElement.setAttribute("loop", audioLooped ? "true" : "false")
+
+        this.play = () => {
+            this.audioElement.play()
+        }
+
+        this.stop = () => {
+            audioElement.pause()
+            audioElement.currentTime = 0
+        }
+    }
+}
+
+function setAudioSource(audioId, source) {
+    document.getElementById(audioId).setAttribute("src", source);
+}
+
+function playAudio(audioId) {
+    document.getElementById(audioId).play();
+}
+
+function stopAudio(audioId) {
+    var audio = document.getElementById(audioId)
+    audio.pause();
+    audio.currentTime = 0;
+}
+
+
 class Barrier {
     constructor(reverse = false) {
         this.element = createElement("div", "barrier");
-        const border = createElement("div", "border");
-        const body = createElement("div", "body");
-        border.classList.add(isSpecialModeOn ? "tube-image" : "tube-color");
-        body.classList.add(isSpecialModeOn ? "tube-image" : "tube-color");
+        const border = createElement("div", "border tube-color");
+        const body = createElement("div", "body tube-color");
+
         this.element.appendChild(reverse ? body : border);
         this.element.appendChild(reverse ? border : body);
 
@@ -56,9 +83,9 @@ class PairOfBarriers {
 
 class Barriers {
     constructor(numberOfBarriers, height, width, opening, space, notifierPoint) {
-        this.pairs = [];
+        this.pairs = [...Array(numberOfBarriers)].map(() => 0);;
         for (var i = 0; i < numberOfBarriers; i++) {
-            this.pairs.push(new PairOfBarriers(height, getRandomInt(200, opening), width + (space * i)));
+            this.pairs[i] = new PairOfBarriers(height, getRandomInt(200, opening), width + (space * i));
         }
         const displacement = 3;
         this.animate = () => {
@@ -83,8 +110,8 @@ class Barriers {
 class Bird {
     constructor(gameAreaHeight) {
         let flying = false;
-        this.element = createElement("img", `bird${isSpecialModeOn ? " flipped-x-image stretched-image" : ""}`);
-        this.element.src = isSpecialModeOn ? "./imgs/flappy_bird_special.gif" : "./imgs/flappy_bird.png";
+        this.element = createElement("img", "bird");
+        this.element.src = "./images/flappy_duck.png";
         this.getY = () => parseInt(this.element.style.bottom.split("px")[0]);
         this.setY = y => this.element.style.bottom = `${y}px`;
 
@@ -138,43 +165,102 @@ function collided(bird, barriers) {
             collided = isOverlapped(bird.element, superior) || isOverlapped(bird.element, inferior)
         }
     })
+    return collided
 }
 
 class Game {
-    constructor(gameArea) {
-        gameArea.innerHTML = "";
-        gameArea.className = isSpecialModeOn ? "special-bgd" : "normal-bgd";
+    constructor() {
+        const gameArea = document.querySelector("[wm-flappy]")
+        var currentPopup = null
 
+        const mainMenuMusic = new AudioEngine("main-menu-music", "sounds/main_menu_music.wav", "0.6", true)
+        
+        this.clearGame = () => {
+            gameArea.innerHTML = "";
+        }
+
+        this.popup = function(texts, buttonSettings) {
+            const popup = createElement("div", "bor1 bgcolor3 center rounded-corners popup")
+            popup.setAttribute
+
+            texts.forEach(item => {
+                const text = createElement("h1")
+                text.textContent = item
+                popup.appendChild(text)
+            })
+
+            const button = createElement("button")
+            button.textContent = buttonSettings[0]
+            button.addEventListener("click", buttonSettings[1], false)
+            popup.appendChild(button)
+
+            const p = createElement("p")
+            popup.appendChild(p)
+
+            gameArea.appendChild(popup)
+            return popup
+        }
+
+        // Start of game code
+        this.clearGame()
+        setAudioSource("bgd-music", "sounds/bgd_music.mp3")
+        gameArea.className = "normal-bgd center";
+        
         let points = 0;
         const width = gameArea.clientWidth;
         const height = gameArea.clientHeight;
 
         const progress = new Progress();
-        const barriers = new Barriers(99, height, width, 300, 400, () => progress.updatePoints(points++));
-        const bird = new Bird(700);
+        const barriers = new Barriers(99, height, width, 300, 400, () => {
+            progress.updatePoints(++points)
+            playAudio("point")
+        });
+        const bird = new Bird(height);
 
         gameArea.appendChild(bird.element);
-        gameArea.appendChild(progress.element);
         barriers.pairs.forEach(pair => gameArea.appendChild(pair.element));
-
+        
+        // End of game code
+        
         this.start = () => {
+            currentPopup ? currentPopup.remove() : null;
+            gameArea.appendChild(progress.element);
+            playAudio("bgd-music")
+            
             currentIntervalId = setInterval(() => {
                 barriers.animate();
                 bird.animate()
 
-                if (isSpecialModeOn != lastSpecialModeValue) {
-                    lastSpecialModeValue = isSpecialModeOn;
-                    clearInterval(currentIntervalId);
-                    new Game(gameArea).start();
-                } else if (collided(bird, barriers)) {
-                    clearInterval(currentIntervalId);
+                if (collided(bird, barriers)) {
+                    this.gameOver()
                 }
             }, 20);
         };
+        
+        this.restart = () => {
+            clearInterval(currentIntervalId);
+            game = new Game()
+            game.start()
+        }
+        
+        this.gameOver = () => {
+            clearInterval(currentIntervalId);
+            stopAudio("bgd-music")
+            playAudio("hit")
+            
+            setTimeout(() => {
+                this.clearGame()
+                playAudio("die");
+
+                currentPopup = this.popup(["Game Over", `Pontos: ${points}`], ["Jogar Denovo?", this.restart])
+            }, 500);
+        };
+
+        this.showMainMenu = () => {
+            currentPopup = this.popup(["Flappy"], ["Jogar", this.start])
+        }
     }
 }
 
-const gameArea = document.querySelector("[wm-flappy]")
-var lastSpecialModeValue = isSpecialModeOn
 var currentIntervalId = null
-new Game(gameArea).start()
+var game = null

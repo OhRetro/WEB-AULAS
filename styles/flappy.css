@@ -4,27 +4,17 @@
 
 [wm-flappy] {
     position: relative;
-    height: 700px;
+    height: 42em;
     width: 75em;
-    margin: 15px;
-    overflow: hidden;
     margin: auto;
+    overflow: hidden;
     border: 0.2em solid white;
     border-radius: 1em;
+    background-color: lightblue;
 }
 
 [wm-flappy].normal-bgd {
     background-image: url("../images/flappy_background.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-}
-
-[wm-flappy].special-bgd {
-    background-image: url("../imgs/flappy_background_special.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
 }
 
 .bird {
@@ -52,14 +42,14 @@
 .barrier .border {
     width: 130px;
     height: 30px;
-    border: 2px solid #000;
+    border: 5px solid #000;
 }
 
 .barrier .body {
     width: 110px;
     height: 150px;
-    border-left: 2px solid #000;
-    border-right: 2px solid black;
+    border-left: 5px solid #000;
+    border-right: 5px solid black;
 }
 
 .progress {
@@ -69,15 +59,19 @@
     font-size: 70px;
     z-index: 100;
 }
-.tube-image {
-    background-image: url("../imgs/flappy_tube_special.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
+
+div.popup {
+    border-radius: 0.5em ;
 }
 
 .tube-color {
-    background: linear-gradient(90deg, #639301, #A5E82E, white, #639301);
+    background: linear-gradient(90deg, #83c403, #A5E82E, rgb(204, 255, 170), #77b300);
+}
+
+img.cover-centered, [wm-flappy] {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 
 img.flipped-x-image {
