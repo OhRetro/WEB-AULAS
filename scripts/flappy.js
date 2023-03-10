@@ -240,7 +240,7 @@ class Game {
             gameArea.innerHTML = "";
         }
 
-        this.popup = function (texts, buttonSettings) {
+        this.popup = function (texts, buttons) {
             const popup = createElement("div", "bor1 bgcolor3 center rounded-corners popup")
             popup.setAttribute("id", "popup")
 
@@ -250,10 +250,12 @@ class Game {
                 popup.appendChild(text)
             })
 
-            const button = createElement("button")
-            button.textContent = buttonSettings[0]
-            button.addEventListener("click", buttonSettings[1], false)
-            popup.appendChild(button)
+            buttons.forEach(item => {
+                const button = createElement("button")
+                button.textContent = item[0]
+                button.addEventListener("click", item[1], false)
+                popup.appendChild(button)    
+            })
 
             const p = createElement("p")
             popup.appendChild(p)
@@ -325,14 +327,14 @@ class Game {
                 bird.dieSound.play()
 
                 this.gameOverMusic.play()
-
-                currentPopup = this.popup(["Game Over", `Pontos: ${this.points}`], ["Jogar Denovo?", this.restart])
+                currentPopup = this.popup(["Game Over", `Pontos: ${this.points}`], [["Jogar Denovo?", this.restart]])
             }, 500);
         };
 
         this.showMainMenu = () => {
+            this.gameOverMusic.stop()
             this.mainMenuMusic.play()
-            currentPopup = this.popup(["Flappy"], ["Jogar", this.start])
+            currentPopup = this.popup(["Flappy"], [["Jogar", this.start]])
         }
 
         this.generate()
