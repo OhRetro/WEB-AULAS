@@ -1,13 +1,3 @@
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function createElement(tagName, className = "") {
-    const element = document.createElement(tagName);
-    element.className = className;
-    return element;
-}
-
 class AudioEngine {
     constructor(audioId, audioSource, audioVolume = 1, audioLooped = false) {
         this.element = createElement("audio")
@@ -30,21 +20,6 @@ class AudioEngine {
         }
     }
 }
-
-function setAudioSource(audioId, source) {
-    document.getElementById(audioId).setAttribute("src", source);
-}
-
-function playAudio(audioId) {
-    document.getElementById(audioId).play();
-}
-
-function stopAudio(audioId) {
-    var audio = document.getElementById(audioId)
-    audio.pause();
-    audio.currentTime = 0;
-}
-
 
 class Barrier {
     constructor(reverse = false) {

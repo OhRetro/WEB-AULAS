@@ -85,3 +85,13 @@ function formatText(text) {
 function chooseRandomItem(list) {
     return list[Math.floor(Math.random()*list.length)]
 }
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function createElement(elementName, className = "") {
+    const element = document.createElement(elementName)
+    element.className = className
+    return element
+}
