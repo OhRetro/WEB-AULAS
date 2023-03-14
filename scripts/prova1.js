@@ -15,10 +15,10 @@ function buildSite() {
 
     div.appendChild(createElement("br"))
 
-    const img = createElement("img", "small-image-display margin-left float-left bor1 rounded-corners zoom zWeak")
+    const img = createElement("img", "small-image-display margin-left float-left bor1 rounded-corners zoom-weak")
     img.setAttribute("src", "images/livro_aberto.jpg")
 
-    const poemDiv = createElement("div", "left zoom zWeak");
+    const poemDiv = createElement("div", "left zoom-weak");
     generatePoem([
         "AUTOPSICOGRAFIA",
         "",

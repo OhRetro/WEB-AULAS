@@ -79,10 +79,6 @@ td,
     background-color: rgb(19, 19, 19);
 }
 
-.borcolor1 {
-    border-color: white;
-}
-
 .width1 {
     width: 50%;
 }
@@ -100,7 +96,6 @@ img.small-image-display {
     width: 30em;
     height: 19em;
 }
-
 
 .rounded-corners {
     border-radius: 0.25em;
@@ -124,11 +119,6 @@ button.invisible {
     padding: 0.5em;
 }
 
-.square-form {
-    height: 30em;
-    width: 30em;
-}
-
 .float-left, .left{
     float: left;
 }
@@ -137,14 +127,14 @@ button.invisible {
     text-align: left;
 }
 
-.zoom {
+.zoom-weak, .zoom-normal {
     transition: transform .2s;
 }
   
-.zoom.zNormal:hover {
+.zoom-normal:hover {
     transform: scale(1.05);
 }
 
-.zoom.zWeak:hover {
+.zoom-weak:hover {
     transform: scale(1.02);
 }

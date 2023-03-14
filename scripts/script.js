@@ -28,7 +28,7 @@ function generatePagesLink(section, links) {
 
     links.forEach(element => {
         const li = document.createElement("li")
-        li.className = "zoom zNormal"
+        li.className = "zoom-normal"
 
         const a = document.createElement("a");
         a.href = element[0] + ".html";
