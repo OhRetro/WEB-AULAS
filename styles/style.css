@@ -141,10 +141,10 @@ button.invisible {
     transition: transform .2s;
 }
   
-.zNormal:hover {
+.zoom.zNormal:hover {
     transform: scale(1.05);
 }
 
-.zWeak:hover {
+.zoom.zWeak:hover {
     transform: scale(1.02);
 }

@@ -1,3 +1,5 @@
+function nothing() {}
+
 function pageTitle(title="", prevType=0, typeOne="index.html") {
     const prevTypes = [["index.html", "Home"], [typeOne, "Voltar"], ["https://github.com/NOVOTEC-NAKA/WEB-AULAS", "GitHub"]]
 
@@ -92,6 +94,8 @@ function getRandomInt(min, max) {
 
 function createElement(elementName, className = "") {
     const element = document.createElement(elementName)
-    element.className = className
+    if (className != "") {
+        element.className = className
+    }
     return element
 }
