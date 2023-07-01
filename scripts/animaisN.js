@@ -1,3 +1,5 @@
+const blacklistedAnimals = ["duck"]
+
 let animalUrlBase = "https://naka-hub.vercel.app/animals"
 var animalsJson = {}
 fetch(`${animalUrlBase}/list.json`)
@@ -25,18 +27,20 @@ function changeImage(imageSrc = "images/black.png", text = " ", loadingMode = 
 	}
 }
 
-async function requestAnimalJSON() {
-	return await requestURL(animalsJsonUrl)
-}
-
 async function getRandomAnimalFile(animal, displayName) {
 	changeImage("images/loading.gif", "Carregando...", true)
 
-	const animalsJson = await requestAnimalJSON()
-	const animals = await animalsJson["media"]
-	const selectedAnimal = chooseRandomItem(animals[animal])
+	const selectedAnimal = chooseRandomItem(animalsJson.list[animal])
+	fetch(selectedAnimal[0])
+		.then(response => response.json())
+		.then(response => {
+			selectedAnimal[1].forEach(pathKey => {
+				response = response[pathKey]
+			});
 
-	changeImage(await requestURL(selectedAnimal[0], selectedAnimal[1]), displayName)
+			changeImage(response, displayName)
+		})
+
 	
 	if (document.getElementById("image-display").src.endsWith(".mp4")) {
 		getRandomAnimalFile(animal, displayName)
@@ -45,20 +49,18 @@ async function getRandomAnimalFile(animal, displayName) {
 
 async function generateAnimalOptions(language) {
 	const animalOptions = document.getElementById("animal-options")
-	const animalsJson = await requestAnimalJSON()
-	const animals = await animalsJson["media"]
-	const translations = await animalsJson["translations"][language]
-	const blacklistedAnimals = ["duck"]
+	const lang = animalsJson.lang[language]
 	
-	Object.keys(animals).forEach(function (key) {
-		if (blacklistedAnimals.includes(key)) {
+	
+	Object.keys(animalsJson.list).forEach(animalKey => {
+		if (blacklistedAnimals.includes(animalKey)) {
 			return
 		}
-		const formattedKey = formatText(translations[key])
-		generateOption("animal-options", formattedKey, key);
+
+		generateOption("animal-options", lang[animalKey], animalKey);
 	})
 
-	document.getElementById("get-animal-button").addEventListener("click", function () {
-		getRandomAnimalFile(animalOptions.value, formatText(translations[animalOptions.value]))
+	document.getElementById("get-animal-button").addEventListener("click", () => {
+		getRandomAnimalFile(animalOptions.value, lang[animalOptions.value])
 	}, false);
 }
