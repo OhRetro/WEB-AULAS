@@ -1,14 +1,14 @@
 const blacklistedAnimals = ["duck"]
 
-let animalUrlBase = "https://naka-hub.vercel.app/animals"
+const animalRequestList = ["list", "lang"]
+const animalUrlBase = "https://naka-hub.vercel.app/animals"
 var animalsJson = {}
-fetch(`${animalUrlBase}/list.json`)
-	.then(response => response.json())
-	.then(response => animalsJson.list = response)
 
-fetch(`${animalUrlBase}/lang.json`)
-	.then(response => response.json())
-	.then(response => animalsJson.lang = response)
+animalRequestList.forEach(animalRequest => {
+	fetch(`${animalUrlBase}/${animalRequest}.json`)
+		.then(response => response.json())
+		.then(response => animalsJson[animalRequest] = response)
+})
 
 function changeImage(imageSrc = "images/black.png", text = " ", loadingMode = false) {
 	const imageDisplay = document.getElementById("image-display")
@@ -41,7 +41,6 @@ async function getRandomAnimalFile(animal, displayName) {
 			changeImage(response, displayName)
 		})
 
-	
 	if (document.getElementById("image-display").src.endsWith(".mp4")) {
 		getRandomAnimalFile(animal, displayName)
 	}
@@ -50,7 +49,6 @@ async function getRandomAnimalFile(animal, displayName) {
 async function generateAnimalOptions(language) {
 	const animalOptions = document.getElementById("animal-options")
 	const lang = animalsJson.lang[language]
-	
 	
 	Object.keys(animalsJson.list).forEach(animalKey => {
 		if (blacklistedAnimals.includes(animalKey)) {
