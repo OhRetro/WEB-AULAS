@@ -35,7 +35,7 @@ function changeImage(imageSrc = "images/black.png", text = " ", loadingMode = 
 	}
 }
 
-async function getRandomAnimalFile(animal, displayName) {
+function getRandomAnimalFile(animal, displayName) {
 	changeImage("images/loading.gif", "Carregando...", true)
 
 	const selectedAnimal = chooseRandomItem(animalsJson.list[animal])
